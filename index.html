@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>R&D IDEAS // COSMIC</title>
+  <meta name="description" content="Cosmic R&D Idea Tracker" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Background Layer -->
+  <div class="cosmic-bg"></div>
+  <div class="overlay"></div>
+
+  <div id="app">
+
+    <!-- Header -->
+    <header class="cosmic-header">
+      <div class="brand-logo">
+        <span class="brand-thin">R&D</span>
+        <span class="brand-bold">IDEAS</span>
+      </div>
+      <button id="toggle-form-btn" class="new-ideas-btn">
+        NEW_IDEAS
+      </button>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="video_booth">VIDEO BOOTH</button>
+      <button class="nav-tab" data-tab="photo_booth">PHOTO BOOTH</button>
+      <button class="nav-tab" data-tab="vr_games">VR GAMES</button>
+      <button class="nav-tab" data-tab="touch_screen">TOUCH SCREEN</button>
+      <button class="nav-tab" data-tab="ar_games">AR GAMES</button>
+      <button class="nav-tab" data-tab="digital_engagement">DIGITAL ENGAGEMENT</button>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-container">
+      <div class="glass-search">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="search-input" placeholder="SEARCH COSMOS..." autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Form Modal (Hidden by default) -->
+    <div id="form-modal" class="modal-backdrop hidden">
+      <div class="glass-modal">
+        <div class="modal-header">
+          <h3>NEW ENTRY</h3>
+          <button id="close-modal-btn" class="close-btn"><i data-lucide="x"></i></button>
+        </div>
+
+        <form id="note-form" class="cosmic-form">
+          <!-- Designation & Title -->
+          <div class="form-row">
+            <div class="input-group">
+              <label>DESIGNATION / NAME</label>
+              <div class="input-wrapper">
+                <i data-lucide="user" class="input-icon"></i>
+                <input type="text" id="note-category" placeholder="E.G. TAMIL" required list="existing-categories">
+                <datalist id="existing-categories"></datalist>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>PROJECT TITLE</label>
+              <div class="input-wrapper">
+                <i data-lucide="lightbulb" class="input-icon"></i>
+                <input type="text" id="note-title" placeholder="IDEA NAME" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="input-group">
+            <label>STATUS</label>
+            <div class="status-options">
+              <label class="radio-label">
+                <input type="radio" name="status" value="process" checked>
+                <span class="radio-custom process">PROCESS</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="status" value="complete">
+                <span class="radio-custom complete">COMPLETE</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="status" value="cancel">
+                <span class="radio-custom cancel">CANCEL</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Link -->
+          <div class="input-group">
+            <label>REFERENCE LINK</label>
+            <div class="input-wrapper">
+              <i data-lucide="video" class="input-icon"></i>
+              <input type="url" id="note-link" placeholder="HTTPS://">
+            </div>
+          </div>
+
+          <!-- Category -->
+          <div class="input-group">
+            <label>CATEGORY</label>
+            <div class="status-options">
+              <button class="category-btn active" data-category="video_booth">VIDEO BOOTH</button>
+              <button class="category-btn" data-category="photo_booth">PHOTO BOOTH</button>
+              <button class="category-btn" data-category="vr_games">VR GAMES</button>
+              <button class="category-btn" data-category="touch_screen">TOUCH</button>
+              <button class="category-btn" data-category="ar_games">AR GAMES</button>
+              <button class="category-btn" data-category="digital_engagement">DIGITAL</button>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="input-group">
+            <label>NOTES</label>
+            <textarea id="note-content" rows="3" placeholder="DETAILS..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">SAVE IDEA</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <main id="notes-grid" class="cards-container">
+      <!-- Injected via JS -->
+    </main>
+
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
