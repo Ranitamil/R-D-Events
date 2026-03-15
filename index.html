@@ -1,146 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R&D IDEAS // COSMIC</title>
-  <meta name="description" content="Cosmic R&D Idea Tracker" />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Tracker App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
-
 <body>
-  <!-- Background Layer -->
-  <div class="cosmic-bg"></div>
-  <div class="overlay"></div>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <span>SyncLoan</span>
+            </div>
+            <nav>
+                <a href="#" class="nav-item active" data-tab="dashboard"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+                <a href="#" class="nav-item" data-tab="loans"><i class="fa-solid fa-hand-holding-dollar"></i><span>Loans</span></a>
+                <a href="#" class="nav-item" data-tab="friends"><i class="fa-solid fa-users"></i><span>Friends</span></a>
+                <a href="#" class="nav-item" data-tab="reports"><i class="fa-solid fa-file-excel"></i><span>Reports</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="profile-min">
+                    <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
+                    <div class="p-info">
+                        <strong>My Wallet</strong>
+                        <span>Local Mode</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-  <div id="app">
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-actions">
+                    <button id="addFriendBtn" class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Add Friend</button>
+                    <button id="addLoanBtn" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Loan</button>
+                </div>
+            </header>
 
-    <!-- Header -->
-    <header class="cosmic-header">
-      <div class="brand-logo">
-        <span class="brand-thin">R&D</span>
-        <span class="brand-bold">IDEAS</span>
-      </div>
-      <button id="toggle-form-btn" class="new-ideas-btn">
-        NEW_IDEAS
-      </button>
-    </header>
+            <div class="content-area">
+                <!-- Dashboard Tab -->
+                <div id="tab-dashboard" class="tab-pane active fade-in">
+                    <div class="stats-grid">
+                        <div class="stat-card glass-panel orange-glow">
+                            <div class="icon-wrapper orange"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-label">Total Loaned</span>
+                                <h3 id="stat-total-loaned">$0.00</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel green-glow">
+                            <div class="icon-wrapper green"><i class="fa-solid fa-check-double"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-label">Total Repaid</span>
+                                <h3 id="stat-total-repaid">$0.00</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel blue-glow">
+                            <div class="icon-wrapper blue"><i class="fa-solid fa-scale-balanced"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-label">Outstanding Balance</span>
+                                <h3 id="stat-balance">$0.00</h3>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-tab="video_booth">VIDEO BOOTH</button>
-      <button class="nav-tab" data-tab="photo_booth">PHOTO BOOTH</button>
-      <button class="nav-tab" data-tab="vr_games">VR GAMES</button>
-      <button class="nav-tab" data-tab="touch_screen">TOUCH SCREEN</button>
-      <button class="nav-tab" data-tab="ar_games">AR GAMES</button>
-      <button class="nav-tab" data-tab="digital_engagement">DIGITAL ENGAGEMENT</button>
+                    <div class="recent-section glass-panel mt-2">
+                        <div class="section-header">
+                            <h3>Activity Outline</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Friend</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Balance</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-loans-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                            <div id="empty-dashboard" class="empty-state hidden">
+                                <i class="fa-solid fa-ghost"></i>
+                                <p>No loan records found.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loans Tab -->
+                <div id="tab-loans" class="tab-pane fade-in">
+                    <div class="glass-panel">
+                        <div class="section-header">
+                            <h3>All Loans</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Friend</th>
+                                        <th>Description</th>
+                                        <th>Total Amount</th>
+                                        <th>Remaining</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="all-loans-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                            <div id="empty-loans" class="empty-state hidden">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                <p>No loans created yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friends Tab -->
+                <div id="tab-friends" class="tab-pane fade-in">
+                    <div class="section-header mb-1">
+                        <h3>My Friends</h3>
+                    </div>
+                    <div class="friends-grid" id="friends-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div id="empty-friends" class="empty-state glass-panel hidden" style="margin-top:0;">
+                        <i class="fa-solid fa-user-group"></i>
+                        <p>No friends added yet. Add a friend to start tracking loans!</p>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div id="tab-reports" class="tab-pane fade-in">
+                    <div class="reports-container">
+                        <div class="report-card glass-panel">
+                            <div class="report-icon">
+                                <i class="fa-solid fa-file-excel"></i>
+                            </div>
+                            <div class="report-info">
+                                <h3>Comprehensive Excel Report</h3>
+                                <p>Generate and download a full report of all your friends, loans, and payment history.</p>
+                            </div>
+                            <button id="downloadExcelBtn" class="btn btn-success"><i class="fa-solid fa-download"></i> Download Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <!-- Search Section -->
-    <div class="search-container">
-      <div class="glass-search">
-        <i data-lucide="search" class="search-icon"></i>
-        <input type="text" id="search-input" placeholder="SEARCH COSMOS..." autocomplete="off">
-      </div>
-    </div>
+    <!-- Modals Overlay -->
+    <div class="modal-overlay" id="modalOverlay"></div>
 
-    <!-- Form Modal (Hidden by default) -->
-    <div id="form-modal" class="modal-backdrop hidden">
-      <div class="glass-modal">
+    <!-- Add Friend Modal -->
+    <div class="modal glass-panel" id="friendModal">
         <div class="modal-header">
-          <h3>NEW ENTRY</h3>
-          <button id="close-modal-btn" class="close-btn"><i data-lucide="x"></i></button>
+            <h3>Add New Friend</h3>
+            <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
         </div>
-
-        <form id="note-form" class="cosmic-form">
-          <!-- Designation & Title -->
-          <div class="form-row">
-            <div class="input-group">
-              <label>DESIGNATION / NAME</label>
-              <div class="input-wrapper">
-                <i data-lucide="user" class="input-icon"></i>
-                <input type="text" id="note-category" placeholder="E.G. TAMIL" required list="existing-categories">
-                <datalist id="existing-categories"></datalist>
-              </div>
+        <form id="friendForm">
+            <div class="form-group">
+                <label for="friendName">Friend Name</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="friendName" required placeholder="e.g. John Doe">
+                </div>
             </div>
-            <div class="input-group">
-              <label>PROJECT TITLE</label>
-              <div class="input-wrapper">
-                <i data-lucide="lightbulb" class="input-icon"></i>
-                <input type="text" id="note-title" placeholder="IDEA NAME" required>
-              </div>
-            </div>
-          </div>
-
-          <!-- Status -->
-          <div class="input-group">
-            <label>STATUS</label>
-            <div class="status-options">
-              <label class="radio-label">
-                <input type="radio" name="status" value="process" checked>
-                <span class="radio-custom process">PROCESS</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="status" value="complete">
-                <span class="radio-custom complete">COMPLETE</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="status" value="cancel">
-                <span class="radio-custom cancel">CANCEL</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Link -->
-          <div class="input-group">
-            <label>REFERENCE LINK</label>
-            <div class="input-wrapper">
-              <i data-lucide="video" class="input-icon"></i>
-              <input type="url" id="note-link" placeholder="HTTPS://">
-            </div>
-          </div>
-
-          <!-- Category -->
-          <div class="input-group">
-            <label>CATEGORY</label>
-            <div class="status-options">
-              <button class="category-btn active" data-category="video_booth">VIDEO BOOTH</button>
-              <button class="category-btn" data-category="photo_booth">PHOTO BOOTH</button>
-              <button class="category-btn" data-category="vr_games">VR GAMES</button>
-              <button class="category-btn" data-category="touch_screen">TOUCH</button>
-              <button class="category-btn" data-category="ar_games">AR GAMES</button>
-              <button class="category-btn" data-category="digital_engagement">DIGITAL</button>
-            </div>
-          </div>
-
-          <!-- Notes -->
-          <div class="input-group">
-            <label>NOTES</label>
-            <textarea id="note-content" rows="3" placeholder="DETAILS..."></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">SAVE IDEA</button>
+            <button type="submit" class="btn btn-primary w-100">Save Friend</button>
         </form>
-      </div>
     </div>
 
-    <!-- Cards Grid -->
-    <main id="notes-grid" class="cards-container">
-      <!-- Injected via JS -->
-    </main>
+    <!-- Add Loan Modal -->
+    <div class="modal glass-panel" id="loanModal">
+        <div class="modal-header">
+            <h3>Create New Loan</h3>
+            <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="loanForm">
+            <div class="form-group">
+                <label for="loanFriend">Select Friend</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-users"></i>
+                    <select id="loanFriend" required>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loanAmount">Amount</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <input type="number" id="loanAmount" required min="1" step="0.01" placeholder="0.00">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loanDesc">Description</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <input type="text" id="loanDesc" required placeholder="e.g. Dinner, Rent">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loanDate">Date</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-calendar"></i>
+                    <input type="date" id="loanDate" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Loan</button>
+        </form>
+    </div>
 
-  </div>
+    <!-- Add Payment Modal -->
+    <div class="modal glass-panel" id="paymentModal">
+        <div class="modal-header">
+            <h3>Record Payment</h3>
+            <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="paymentForm">
+            <input type="hidden" id="paymentLoanId">
+            <div class="payment-summary glass-panel">
+                <span>Outstanding Balance:</span>
+                <strong id="paymentOutstanding">$0.00</strong>
+            </div>
+            <div class="form-group">
+                <label for="paymentAmount">Amount Paid</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <input type="number" id="paymentAmount" required min="0.01" step="0.01" placeholder="0.00">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="paymentDate">Date</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-calendar"></i>
+                    <input type="date" id="paymentDate" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Record Payment</button>
+        </form>
+    </div>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="main.js"></script>
+    <script src="app.js"></script>
 </body>
-
 </html>
